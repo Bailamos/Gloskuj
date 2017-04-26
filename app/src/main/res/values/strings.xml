@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Gloskuj</string>
+    <string name="game_fragment">Game fragment</string>
+    <string name="main_fragment">Main fragment</string>
 </resources>
