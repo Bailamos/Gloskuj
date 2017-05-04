@@ -21,7 +21,7 @@ public class CupsActivity extends Activity implements SensorEventListener {
      * Wartosc wychylenia zyroskopu.
      * Pole static - widoczne dla wszystkich klas.
      */
-    public static float gyroY;
+    public static float gyroX;
 
     /**
      * Sczytywanie wartosci wychylenia zyroskopu.
@@ -30,7 +30,7 @@ public class CupsActivity extends Activity implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        gyroY = event.values[1];
+        gyroX = event.values[0];
     }
 
     /**

@@ -1,14 +1,21 @@
 package com.sztokrotki.gloskuj.game.cups;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.sztokrotki.gloskuj.R;
+
 
 public class Cups extends SurfaceView implements SurfaceHolder.Callback{
 
+    public static final int szerokosc=800;
+    public static final int wysokosc=600;
+
     private CupsThread thread;
+    private Cup cup;
 
     public Cups (Context context)
     {
@@ -25,6 +32,7 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
      */
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        cup= new Cup(BitmapFactory.decodeResource(getResources(), R.drawable.cup));
         //inicjalizacja watku glownego
         thread.setRunning(true);
         thread.start();
@@ -59,8 +67,25 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
         }
     }
 
-    public void update() {}
+    public void update() {
+        cup.update();
+    }
 
     @Override
-    public void draw(Canvas canvas){}
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        // zmienne sluzace do przeskalowania obrazkow tak, aby mialy jednakowa wielkosc na kazdym urzadzeniu
+        final float scaleX = getWidth() / (szerokosc * 1.f);
+        final float scaleY = getHeight() / (wysokosc * 1.f);
+
+        if (canvas != null) {
+            //po narysowaniu elementow chcemy przywrocic stan poczatkowy aby uniknac skalowania w nieskonczonosc
+            final int stock = canvas.save();
+            canvas.scale(scaleX, scaleY);
+
+            cup.draw(canvas);
+
+            canvas.restoreToCount(stock);
+        }
+    }
 }
