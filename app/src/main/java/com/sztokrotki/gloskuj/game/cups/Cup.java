@@ -3,6 +3,8 @@ package com.sztokrotki.gloskuj.game.cups;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import com.sztokrotki.gloskuj.MainActivity;
+
 public class Cup extends Object {
 
     public Cup(Bitmap res){
@@ -10,8 +12,8 @@ public class Cup extends Object {
         image=res;
         width=image.getWidth();
         height=image.getHeight();
-        x=getWidth()/2;
-        y=getHeight();//-height;//-getHeight()/20;
+        x=MainActivity.screenWidth/2;
+        y=MainActivity.screenHeight-height;//-getHeight()/20;
     }
 
     public void update(){
@@ -26,7 +28,7 @@ public class Cup extends Object {
 
         //Ograniczenia poruszania sie na boki
         if(x<1) x=1; //od lewej
-        if(x>Cups.width-1-width) x=Cups.height-1-width; //od prawej
+        if(x> MainActivity.screenWidth-1-width) x=MainActivity.screenWidth-1-width; //od prawej
     }
 
     /**
