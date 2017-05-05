@@ -10,8 +10,8 @@ public class Cup extends Object {
         image=res;
         width=image.getWidth();
         height=image.getHeight();
-        x=Cups.szerokosc/2;
-        y=Cups.wysokosc-height-Cups.wysokosc/4-5;
+        x=getWidth()/2;
+        y=getHeight();//-height;//-getHeight()/20;
     }
 
     public void update(){
@@ -26,7 +26,7 @@ public class Cup extends Object {
 
         //Ograniczenia poruszania sie na boki
         if(x<1) x=1; //od lewej
-        if(x>Cups.szerokosc-1-width) x=Cups.szerokosc-1-width; //od prawej
+        if(x>Cups.width-1-width) x=Cups.height-1-width; //od prawej
     }
 
     /**
