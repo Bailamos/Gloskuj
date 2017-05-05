@@ -11,11 +11,14 @@ import android.view.SurfaceView;
 import com.sztokrotki.gloskuj.MainActivity;
 import com.sztokrotki.gloskuj.R;
 
+import java.util.ArrayList;
+
 
 public class Cups extends SurfaceView implements SurfaceHolder.Callback{
 
     private CupsThread thread;
     private Cup cup;
+    private ArrayList<Letter> letters;
 
     public Cups (Context context)
     {
@@ -34,6 +37,8 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         cup= new Cup(BitmapFactory.decodeResource(getResources(), R.drawable.cup));
+        letters=new ArrayList<>();
+        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.b)));
         //inicjalizacja watku glownego
         thread.setRunning(true);
         thread.start();
@@ -69,7 +74,17 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
     }
 
     public void update() {
+
         cup.update();
+        for (int i = 0; i < letters.size(); i++) {
+            //Kazdy element listy jest odswiezany i sprawdzany pod katem kolizji oraz dalszej przydatnosci.
+            letters.get(i).update();
+
+            if (letters.get(i).getY() > MainActivity.screenHeight + letters.get(i).getHeight()) {
+                //Gdy pietro wychodzi poza widoczny obszar jest usuwane
+                letters.remove(i);
+            }
+        }
     }
 
     @Override
@@ -85,6 +100,10 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
             //canvas.scale(scaleX, scaleY);
 
             cup.draw(canvas);
+
+            for(Letter letter: letters){
+                letter.draw(canvas);
+            }
 
             //canvas.restoreToCount(stock);
         }
