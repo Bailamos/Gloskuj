@@ -7,24 +7,20 @@ import com.sztokrotki.gloskuj.MainActivity;
 
 public class Cup extends Object {
 
+    private double gyroSensitivity=2.5;
+
     public Cup(Bitmap res){
 
         image=res;
         width=image.getWidth();
         height=image.getHeight();
-        x=MainActivity.screenWidth/2;
-        y=MainActivity.screenHeight-height;//-getHeight()/20;
+        x=MainActivity.screenWidth/2-width/2;
+        y=MainActivity.screenHeight-height-getHeight()/20;
     }
 
     public void update(){
 
-        //Sterowanie zyroskopem
-        if (CupsActivity.gyroX > 0) {
-            x = x + 15;
-        }
-        if (CupsActivity.gyroX < 0) {
-            x = x - 15;
-        }
+        x = x + (int)(CupsActivity.gyroX *gyroSensitivity);
 
         //Ograniczenia poruszania sie na boki
         if(x<1) x=1; //od lewej
