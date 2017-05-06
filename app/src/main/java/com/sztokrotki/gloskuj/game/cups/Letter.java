@@ -11,17 +11,23 @@ import java.util.Random;
 public class Letter extends Object {
 
     private boolean type;
+
+    //settings
     private int dy_diversity=4;
+    private int dy_divider=500;
+    private int maxIndex=2;
 
     public Letter(Bitmap res, int level){
         Random rand = new Random();
-        image= res;
+        int index=rand.nextInt(maxIndex);
+        if(index<1) type=true;
+        else type=false;
+        image= Bitmap.createBitmap(res, index*res.getWidth()/maxIndex, 0, res.getWidth()/maxIndex, res.getHeight());
         width=image.getWidth();
         height=image.getHeight();
         y=-2*height;
-        dy=(rand.nextInt(dy_diversity)+1)*level*MainActivity.screenHeight/500;
+        dy=(rand.nextInt(dy_diversity)+1)*level*MainActivity.screenHeight/dy_divider;
         x= rand.nextInt(MainActivity.screenWidth-2*width)+width;
-        type=rand.nextBoolean();
     }
 
     public void update(){

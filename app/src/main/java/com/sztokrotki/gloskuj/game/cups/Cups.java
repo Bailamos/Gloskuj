@@ -52,7 +52,7 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
         scorePaint.setColor(Color.RED);
         cup= new Cup(BitmapFactory.decodeResource(getResources(), R.drawable.cup));
         letters=new ArrayList<>();
-        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.b), level));
+        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.bp), level));
         //inicjalizacja watku glownego
         thread.setRunning(true);
         thread.start();
@@ -100,7 +100,7 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
                 letters.remove(i);
             }
             if (letters.get(letters.size()-1).getY() > (5/level)*letters.get(letters.size()-1).getHeight()) {
-                letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.b), level));
+                letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.bp), level));
             }
 
             if(Rect.intersects(letters.get(i).getRect(), cup.getRect())&&
