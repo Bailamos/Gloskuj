@@ -12,9 +12,8 @@ public class Letter extends Object {
 
     private boolean type;
     private int dy_diversity=4;
-    private int level=1;
 
-    public Letter(Bitmap res){
+    public Letter(Bitmap res, int level){
         Random rand = new Random();
         image= res;
         width=image.getWidth();
@@ -23,7 +22,6 @@ public class Letter extends Object {
         dy=(rand.nextInt(dy_diversity)+1)*level*MainActivity.screenHeight/500;
         x= rand.nextInt(MainActivity.screenWidth-2*width)+width;
         type=rand.nextBoolean();
-        System.out.println(dy);
     }
 
     public void update(){
@@ -32,7 +30,5 @@ public class Letter extends Object {
     }
     public void draw(Canvas canvas){canvas.drawBitmap(image, x, y, null);}
 
-    public int getLevel(){return level;  }
-
-    public void setLevel(int lvl){ level=lvl;  }
+    public boolean getType(){return type;}
 }

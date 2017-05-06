@@ -3,7 +3,10 @@ package com.sztokrotki.gloskuj.game.cups;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.view.Display;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -19,6 +22,11 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
     private CupsThread thread;
     private Cup cup;
     private ArrayList<Letter> letters;
+    private int score;
+    private int level;
+    private boolean gameType;
+    private final int textSize=MainActivity.screenHeight/20;
+    private Paint scorePaint;
 
     public Cups (Context context)
     {
@@ -36,9 +44,15 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
      */
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        score=0;
+        level=1;
+        gameType=true;
+        scorePaint = new Paint();
+        scorePaint.setTextSize(textSize);
+        scorePaint.setColor(Color.RED);
         cup= new Cup(BitmapFactory.decodeResource(getResources(), R.drawable.cup));
         letters=new ArrayList<>();
-        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.b)));
+        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.b), level));
         //inicjalizacja watku glownego
         thread.setRunning(true);
         thread.start();
@@ -73,6 +87,7 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
         }
     }
 
+
     public void update() {
 
         cup.update();
@@ -84,10 +99,24 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
                 //Gdy pietro wychodzi poza widoczny obszar jest usuwane
                 letters.remove(i);
             }
-            if (letters.get(letters.size()-1).getY() > letters.get(letters.size()-1).getHeight()) {
-                letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.b)));
+            if (letters.get(letters.size()-1).getY() > (5/level)*letters.get(letters.size()-1).getHeight()) {
+                letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.b), level));
+            }
+
+            if(Rect.intersects(letters.get(i).getRect(), cup.getRect())&&
+                    cup.getY()+0.2*cup.getHeight() > letters.get(i).getY()+letters.get(i).getHeight()){
+                if(letters.get(i).getType()==gameType){
+                    score=score+100;
+                }
+                else{
+                    score=score-100;
+                }
+                letters.remove(i);
+                System.out.println(score);
             }
         }
+
+        if((double)score/1000>=level) level++;
     }
 
     @Override
@@ -107,6 +136,8 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
             for(Letter letter: letters){
                 letter.draw(canvas);
             }
+
+            canvas.drawText("Wynik: "+Integer.toString(score), (float)0.5*MainActivity.screenWidth, (float)1.5*textSize, scorePaint);
 
             //canvas.restoreToCount(stock);
         }
