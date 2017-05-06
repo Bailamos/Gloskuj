@@ -84,6 +84,9 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
                 //Gdy pietro wychodzi poza widoczny obszar jest usuwane
                 letters.remove(i);
             }
+            if (letters.get(letters.size()-1).getY() > letters.get(letters.size()-1).getHeight()) {
+                letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.b)));
+            }
         }
     }
 
