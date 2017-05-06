@@ -11,7 +11,7 @@ import java.util.Random;
 public class Letter extends Object {
 
     private boolean type;
-    private int dy_diversity=5;
+    private int dy_diversity=4;
     private int level=1;
 
     public Letter(Bitmap res){
@@ -20,9 +20,10 @@ public class Letter extends Object {
         width=image.getWidth();
         height=image.getHeight();
         y=-2*height;
-        dy=rand.nextInt(dy_diversity)*level*MainActivity.screenHeight/500;
+        dy=(rand.nextInt(dy_diversity)+1)*level*MainActivity.screenHeight/500;
         x= rand.nextInt(MainActivity.screenWidth-2*width)+width;
         type=rand.nextBoolean();
+        System.out.println(dy);
     }
 
     public void update(){
