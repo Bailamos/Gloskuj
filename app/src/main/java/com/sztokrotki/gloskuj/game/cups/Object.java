@@ -8,7 +8,7 @@ import android.graphics.Rect;
  * Wykoszystywana w klasach Sciana, Poziom i Harold
  * @author Krystian Szutowicz
  */
-public abstract class Object {
+abstract class Object {
 
     /** Wspolrzedna polozenia X. */
     protected int x;

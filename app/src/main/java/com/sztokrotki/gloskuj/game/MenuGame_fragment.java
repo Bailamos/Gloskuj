@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.sztokrotki.gloskuj.R;
 import com.sztokrotki.gloskuj.game.cups.CupsActivity;
-import com.sztokrotki.gloskuj.game.cups.CupsThread;
 
 public class MenuGame_fragment extends Fragment{
 

@@ -1,26 +1,32 @@
 package com.sztokrotki.gloskuj.game.cups;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import com.sztokrotki.gloskuj.MainActivity;
+import com.sztokrotki.gloskuj.R;
 
-public class Cup extends Object {
+class Cup extends Object {
 
-    private double gyroSensitivity=2.5;
+    protected Lives lives;
+    private int gyroSensitivity;
+    private int textSize;
 
-    public Cup(Bitmap res){
-
-        image=res;
+    public Cup(Bitmap cup, Bitmap heart, int gyroSensitivity, int textSize){
+        image=cup;
         width=image.getWidth();
         height=image.getHeight();
         x=MainActivity.screenWidth/2-width/2;
         y=MainActivity.screenHeight-height-getHeight()/20;
+        this.gyroSensitivity=gyroSensitivity;
+        this.textSize=textSize;
+        lives= new Lives(heart, textSize);
     }
 
     public void update(){
 
-        x = x - (int)(2*(CupsActivity.gyroX *gyroSensitivity));
+        x = x - (int)((CupsActivity.gyroX *gyroSensitivity));
 
         //Ograniczenia poruszania sie na boki
         if(x<1) x=1; //od lewej

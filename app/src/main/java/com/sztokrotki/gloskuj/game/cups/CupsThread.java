@@ -3,7 +3,7 @@ package com.sztokrotki.gloskuj.game.cups;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
-public class CupsThread extends Thread{
+class CupsThread extends Thread{
     /** Panel, na ktorym rysowana jest gra. */
     private SurfaceHolder surfaceHolder;
     /** Obiekt gry */

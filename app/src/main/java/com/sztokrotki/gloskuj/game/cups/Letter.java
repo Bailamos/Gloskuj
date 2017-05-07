@@ -8,7 +8,7 @@ import com.sztokrotki.gloskuj.MainActivity;
 
 import java.util.Random;
 
-public class Letter extends Object {
+class Letter extends Object {
 
     private boolean type;
 
