@@ -13,11 +13,6 @@ class CupsThread extends Thread{
     /** Canvas, na ktorych rysowana jest gra. */
     public static Canvas canvas;
 
-    /**
-     * Konstruktor klasy Petla.
-     * @param surfaceHolder Panel, na ktorym rysowana jest gra.
-     * @param game Obiekt gry.
-     */
     public CupsThread(SurfaceHolder surfaceHolder, Cups game )
     {
         super();
@@ -25,15 +20,9 @@ class CupsThread extends Thread{
         this.surfaceHolder=surfaceHolder;
     }
 
-    /**
-     * Podstawowa metoda klasy dziedziczacej po klasie Thread.
-     * Inicjowanie gry, obsluga bledow z tym zwiazanych.
-     * Ograniczanie liczby wyswietlanych klatek na sekunde.
-     */
     @Override
     public void run()
     {
-        //zmienne służące do ograniczenia liczby klatek na sekundę do 30
         long startTime;
         long timeMillis;
         long waitTime;
@@ -83,10 +72,6 @@ class CupsThread extends Thread{
         }
     }
 
-    /**
-     * Setter dla pola running.
-     * @param czy Parametr z wartoscia dla pola running.
-     */
     public void setRunning(boolean czy)
     {
         running=czy;

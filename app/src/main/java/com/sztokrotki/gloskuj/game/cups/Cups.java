@@ -7,12 +7,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
-import android.support.constraint.solver.widgets.Rectangle;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -29,8 +25,8 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
     //settings
     private final int textSize=MainActivity.screenHeight/20;
     private final int spawnConst=4; //smaller = more letters
-    private final int scorePerLetter=100;
-    private final int scorePerLevel=1000;
+    private final int scorePerLetter=10;
+    private final int scorePerLevel=100;
     private final int dy_diversity=2;  //number of letter's speed per level
     private final int dy_divider=1800;   //smaller = faster letters
     private final int speedConst=5;
@@ -67,11 +63,6 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
         this.soundIds=soundIds;
     }
 
-    /**
-     * Metoda wykonywana po utworzeniu panelu.
-     * Ustawienie warunkow poczatkowych oraz inicjalizacja watku glownego.
-     * @param holder
-     */
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         rand = new Random();
@@ -91,22 +82,9 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
         thread.start();
     }
 
-    /**
-     * Nadpisana metoda w celu implementacji interfejsu SurfaceHolder.Callback.
-     * Nie jest wykorzystywana.
-     * @param holder Parametr nie wykorzystywany.
-     * @param format Parametr nie wykorzystywany.
-     * @param width Parametr nie wykorzystywany.
-     * @param height Parametr nie wykorzystywany.
-     */
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) { }
 
-    /**
-     * Metoda wykonywana w razie zniszczenia panelu.
-     * Wykonuje restart watku glownego.
-     * @param holder Uchwyt panelu.
-     */
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
 
@@ -159,11 +137,9 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
         if (cup.lives.isAlive()) {
             cup.update();
             for (int i = 0; i < letters.size(); i++) {
-                //Kazdy element listy jest odswiezany i sprawdzany pod katem kolizji oraz dalszej przydatnosci.
                 letters.get(i).update();
 
                 if (letters.get(i).getY() > MainActivity.screenHeight + letters.get(i).getHeight()) {
-                    //Gdy pietro wychodzi poza widoczny obszar jest usuwane
                     letters.remove(i);
                 }
                 if (letters.get(letters.size()-1).getY() > (spawnConst)*letters.get(letters.size()-1).getHeight()) {
@@ -198,14 +174,8 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        // zmienne sluzace do przeskalowania obrazkow tak, aby mialy jednakowa wielkosc na kazdym urzadzeniu
-        final float scaleX = getWidth() / (MainActivity.screenWidth * 1.f);
-        final float scaleY = getHeight() / (MainActivity.screenHeight * 1.f);
 
         if (canvas != null) {
-            //po narysowaniu elementow chcemy przywrocic stan poczatkowy aby uniknac skalowania w nieskonczonosc
-            //final int stock = canvas.save();
-            //canvas.scale(scaleX, scaleY);
             canvas.drawBitmap(background, 0, 0, null);
             cup.draw(canvas);
             cup.lives.draw(canvas);
@@ -241,8 +211,6 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
                 canvas.drawText("Wyjdz", (float)0.7*MainActivity.screenWidth, MainActivity.screenHeight/2+4*textSize, scorePaint);
                 scorePaint.setColor(Color.RED);
             }
-
-            //canvas.restoreToCount(stock);
         }
     }
 }

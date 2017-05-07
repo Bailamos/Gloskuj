@@ -15,45 +15,21 @@ import android.view.WindowManager;
 
 import com.sztokrotki.gloskuj.R;
 
-/**
- * Klasa tworzona po uruchomieniu aplikacji.
- * Dziedziczy po klasie Activity oraz implementuje interfejs SensorEventListener.
- * @author Krystian Szutowicz
- */
 public class CupsActivity extends Activity implements SensorEventListener {
 
-    /**
-     * Wartosc wychylenia zyroskopu.
-     * Pole static - widoczne dla wszystkich klas.
-     */
     public static float gyroX;
     private MediaPlayer music;
     private SoundPool soundPool;
 
-    /**
-     * Sczytywanie wartosci wychylenia zyroskopu.
-     * @param event Obiekt otrzymywany z zyroskopu do dalszego przetwarzania.
-     */
     @Override
     public void onSensorChanged(SensorEvent event) {
 
         gyroX = event.values[0];
     }
 
-    /**
-     * Nadpisana metoda w celu implementacji interfejsu SensorEventListener.
-     * Nie jest wykorzystywana.
-     * @param sensor Parametr nie wykorzystywany.
-     * @param accuracy Parametr nie wykorzystywany.
-     */
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
-    /**
-     * Podstawowa metoda klasy Activity.
-     * Uruchamiana po stworzeniu obiektu tej klasy.
-     * @param savedInstanceState Obiekt klasy Bundle.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -70,9 +46,7 @@ public class CupsActivity extends Activity implements SensorEventListener {
         soundIds[3] = soundPool.load(this, R.raw.cups_gameover, 1);
         soundIds[4] = soundPool.load(this, R.raw.cups_life, 1);
 
-        //wyłączenie tytułu w oknie
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //włączenie tryby fullscreen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //obsługa żyroskopu
