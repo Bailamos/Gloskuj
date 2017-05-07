@@ -31,7 +31,9 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
     private final int textSize=MainActivity.screenHeight/20;
     private Paint scorePaint;
     private SoundPool soundPool;
+    private Random rand;
     private int soundIds[] = new int[10];
+    private int frames=0;
 
     //settings
     private final int spawnConst=4; //smaller = more letters
@@ -58,9 +60,10 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
      */
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        rand = new Random();
         score=0;
         level=1;
-        gameType=true;
+        gameType=rand.nextBoolean();
         scorePaint = new Paint();
         scorePaint.setTextSize(textSize);
         scorePaint.setColor(Color.RED);
@@ -104,7 +107,6 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
 
     private void levelUp(){
         level++;
-        Random rand = new Random();
         scorePaint.setARGB(255, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
         soundPool.play(soundIds[2], 1, 1, 1, 0, 1);
     }
@@ -158,6 +160,13 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
 
             for(Letter letter: letters){
                 letter.draw(canvas);
+            }
+
+            if(frames<150){
+                frames++;
+                if(gameType) canvas.drawText("Łap dźwięczne!", (float)0.2*MainActivity.screenWidth, (float)0.5*MainActivity.screenHeight, scorePaint);
+                else canvas.drawText("Łap bezdźwięczne!", (float)0.12*MainActivity.screenWidth, (float)0.5*MainActivity.screenHeight, scorePaint);
+
             }
 
             canvas.drawText("Wynik: "+Integer.toString(score), (float)0.5*MainActivity.screenWidth, (float)1.5*textSize, scorePaint);
