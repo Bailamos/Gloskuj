@@ -1,6 +1,7 @@
 package com.sztokrotki.gloskuj.game.cups;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -25,13 +26,17 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
     private CupsThread thread;
     private Cup cup;
     private ArrayList<Letter> letters;
+    private Random rand;
+
     private int score;
     private int level;
     private boolean gameType;
+
     private final int textSize=MainActivity.screenHeight/20;
     private Paint scorePaint;
+    private Bitmap background;
     private SoundPool soundPool;
-    private Random rand;
+
     private int soundIds[] = new int[10];
     private int frames=0;
 
@@ -64,12 +69,13 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
         score=0;
         level=1;
         gameType=rand.nextBoolean();
+        background=BitmapFactory.decodeResource(getResources(), R.drawable.cups_background);
         scorePaint = new Paint();
         scorePaint.setTextSize(textSize);
         scorePaint.setColor(Color.RED);
-        cup= new Cup(BitmapFactory.decodeResource(getResources(), R.drawable.cup));
+        cup= new Cup(BitmapFactory.decodeResource(getResources(), R.drawable.cups_cup));
         letters=new ArrayList<>();
-        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.bp), maxIndex, level, dy_diversity, dy_divider));
+        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_bp), maxIndex, level, dy_diversity, dy_divider));
         //inicjalizacja watku glownego
         thread.setRunning(true);
         thread.start();
@@ -124,7 +130,7 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
                 letters.remove(i);
             }
             if (letters.get(letters.size()-1).getY() > (spawnConst)*letters.get(letters.size()-1).getHeight()) {
-                letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.bp), maxIndex, level, dy_diversity, dy_divider));
+                letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_bp), maxIndex, level, dy_diversity, dy_divider));
             }
 
             if(Rect.intersects(letters.get(i).getRect(), cup.getRect())&&
@@ -155,7 +161,7 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
             //po narysowaniu elementow chcemy przywrocic stan poczatkowy aby uniknac skalowania w nieskonczonosc
             //final int stock = canvas.save();
             //canvas.scale(scaleX, scaleY);
-
+            canvas.drawBitmap(background, 0, 0, null);
             cup.draw(canvas);
 
             for(Letter letter: letters){
