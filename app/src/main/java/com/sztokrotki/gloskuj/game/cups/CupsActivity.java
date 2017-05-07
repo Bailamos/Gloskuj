@@ -7,6 +7,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.Window;
@@ -26,6 +27,8 @@ public class CupsActivity extends Activity implements SensorEventListener {
      * Pole static - widoczne dla wszystkich klas.
      */
     public static float gyroX;
+    private MediaPlayer music;
+    private SoundPool soundPool;
 
     /**
      * Sczytywanie wartosci wychylenia zyroskopu.
@@ -55,10 +58,16 @@ public class CupsActivity extends Activity implements SensorEventListener {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        music = MediaPlayer.create(this, R.raw.cups_music);
+        music.setLooping(true);
+        music.start();
 
-        SoundPool sp = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-        int soundIds[] = new int[10];
-        soundIds[0] = sp.load(this, R.raw.success, 1);
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        int soundIds[] = new int[4];
+        soundIds[0] = soundPool.load(this, R.raw.cups_success, 1);
+        soundIds[1] = soundPool.load(this, R.raw.cups_fail, 1);
+        soundIds[2] = soundPool.load(this, R.raw.cups_levelup, 1);
+        soundIds[3] = soundPool.load(this, R.raw.cups_gameover, 1);
 
         //wyłączenie tytułu w oknie
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -71,6 +80,13 @@ public class CupsActivity extends Activity implements SensorEventListener {
         mng.registerListener(this, acc, SensorManager.SENSOR_DELAY_NORMAL);
 
         //ropoczecie gry
-        setContentView(new Cups(this, sp, soundIds));
+        setContentView(new Cups(this, soundPool, soundIds));
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        music.stop();
+        soundPool.release();
     }
 }

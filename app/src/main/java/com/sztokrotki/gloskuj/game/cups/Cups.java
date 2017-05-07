@@ -99,12 +99,14 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
                 retry = false;
             }catch(InterruptedException e){e.printStackTrace();}
         }
+        soundPool.release();
     }
 
     private void levelUp(){
         level++;
         Random rand = new Random();
         scorePaint.setARGB(255, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
+        soundPool.play(soundIds[2], 1, 1, 1, 0, 1);
     }
 
 
@@ -127,17 +129,17 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
                     cup.getY()+0.2*cup.getHeight() > letters.get(i).getY()+letters.get(i).getHeight()){
                 if(letters.get(i).getType()==gameType){
                     score=score+scorePerLetter;
-                    soundPool.play(soundIds[0], 1, 1, 1, 0, 1);
+                    if((double)score/scorePerLevel>=level) levelUp();
+                    else soundPool.play(soundIds[0], 1, 1, 1, 0, 1);
                 }
                 else{
                     score=score-scorePerLetter;
+                    soundPool.play(soundIds[1], 1, 1, 1, 0, 1);
                 }
                 letters.remove(i);
                 System.out.println(score);
             }
         }
-
-        if((double)score/scorePerLevel>=level) levelUp();
     }
 
     @Override
