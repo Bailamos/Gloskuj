@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.view.Display;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -15,6 +17,7 @@ import com.sztokrotki.gloskuj.MainActivity;
 import com.sztokrotki.gloskuj.R;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class Cups extends SurfaceView implements SurfaceHolder.Callback{
@@ -27,22 +30,25 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
     private boolean gameType;
     private final int textSize=MainActivity.screenHeight/20;
     private Paint scorePaint;
+    private SoundPool soundPool;
+    private int soundIds[] = new int[10];
 
     //settings
-    private final int spawnConst=5;
-    private final int scorePerLetter=100;
+    private final int spawnConst=4; //smaller = more letters
+    private final int scorePerLetter=500;
     private final int scorePerLevel=1000;
-    private final int dy_diversity=4;
-    private final int dy_divider=500;
-    private final int maxIndex=2;
+    private final int dy_diversity=2;  //number of letter's speed per level
+    private final int dy_divider=600;   //smaller = faster letters
+    private final int maxIndex=2;       //number of letters in sprite
 
-    public Cups (Context context)
+    public Cups (Context context, SoundPool soundPool, int[] soundIds)
     {
         super(context);
         getHolder().addCallback(this);
         thread=new CupsThread(getHolder(), this);
         setFocusable(true);
-
+        this.soundPool=soundPool;
+        this.soundIds=soundIds;
     }
 
     /**
@@ -95,6 +101,12 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
         }
     }
 
+    private void levelUp(){
+        level++;
+        Random rand = new Random();
+        scorePaint.setARGB(255, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
+    }
+
 
     public void update() {
 
@@ -107,7 +119,7 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
                 //Gdy pietro wychodzi poza widoczny obszar jest usuwane
                 letters.remove(i);
             }
-            if (letters.get(letters.size()-1).getY() > (spawnConst/level)*letters.get(letters.size()-1).getHeight()) {
+            if (letters.get(letters.size()-1).getY() > (spawnConst)*letters.get(letters.size()-1).getHeight()) {
                 letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.bp), maxIndex, level, dy_diversity, dy_divider));
             }
 
@@ -115,6 +127,7 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
                     cup.getY()+0.2*cup.getHeight() > letters.get(i).getY()+letters.get(i).getHeight()){
                 if(letters.get(i).getType()==gameType){
                     score=score+scorePerLetter;
+                    soundPool.play(soundIds[0], 1, 1, 1, 0, 1);
                 }
                 else{
                     score=score-scorePerLetter;
@@ -124,7 +137,7 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
             }
         }
 
-        if((double)score/scorePerLevel>=level) level++;
+        if((double)score/scorePerLevel>=level) levelUp();
     }
 
     @Override
@@ -146,7 +159,7 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
             }
 
             canvas.drawText("Wynik: "+Integer.toString(score), (float)0.5*MainActivity.screenWidth, (float)1.5*textSize, scorePaint);
-
+            canvas.drawText("Poziom: "+Integer.toString(level), (float)0.01*MainActivity.screenWidth, (float)1.5*textSize, scorePaint);
             //canvas.restoreToCount(stock);
         }
     }

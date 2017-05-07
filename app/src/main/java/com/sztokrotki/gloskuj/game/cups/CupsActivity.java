@@ -6,9 +6,13 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.sztokrotki.gloskuj.R;
 
 /**
  * Klasa tworzona po uruchomieniu aplikacji.
@@ -52,6 +56,10 @@ public class CupsActivity extends Activity implements SensorEventListener {
 
         super.onCreate(savedInstanceState);
 
+        SoundPool sp = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        int soundIds[] = new int[10];
+        soundIds[0] = sp.load(this, R.raw.success, 1);
+
         //wyłączenie tytułu w oknie
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         //włączenie tryby fullscreen
@@ -63,6 +71,6 @@ public class CupsActivity extends Activity implements SensorEventListener {
         mng.registerListener(this, acc, SensorManager.SENSOR_DELAY_NORMAL);
 
         //ropoczecie gry
-        setContentView(new Cups(this));
+        setContentView(new Cups(this, sp, soundIds));
     }
 }

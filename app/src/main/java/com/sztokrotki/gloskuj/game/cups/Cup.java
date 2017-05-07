@@ -20,7 +20,7 @@ public class Cup extends Object {
 
     public void update(){
 
-        x = x - (int)(CupsActivity.gyroX *gyroSensitivity);
+        x = x - (int)(2*(CupsActivity.gyroX *gyroSensitivity));
 
         //Ograniczenia poruszania sie na boki
         if(x<1) x=1; //od lewej
