@@ -63,11 +63,12 @@ public class CupsActivity extends Activity implements SensorEventListener {
         music.start();
 
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-        int soundIds[] = new int[4];
+        int soundIds[] = new int[5];
         soundIds[0] = soundPool.load(this, R.raw.cups_success, 1);
         soundIds[1] = soundPool.load(this, R.raw.cups_fail, 1);
         soundIds[2] = soundPool.load(this, R.raw.cups_levelup, 1);
         soundIds[3] = soundPool.load(this, R.raw.cups_gameover, 1);
+        soundIds[4] = soundPool.load(this, R.raw.cups_life, 1);
 
         //wyłączenie tytułu w oknie
         requestWindowFeature(Window.FEATURE_NO_TITLE);

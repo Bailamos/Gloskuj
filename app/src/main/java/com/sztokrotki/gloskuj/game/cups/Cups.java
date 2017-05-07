@@ -85,7 +85,7 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
         cup= new Cup(BitmapFactory.decodeResource(getResources(), R.drawable.cups_cup),
                 BitmapFactory.decodeResource(getResources(), R.drawable.cups_heart), gyroSensitivity, textSize);
         letters=new ArrayList<>();
-        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_bp), maxIndex, level, dy_diversity, dy_divider, speedConst));
+        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_bp), false, maxIndex, level, dy_diversity, dy_divider, speedConst));
         //inicjalizacja watku glownego
         thread.setRunning(true);
         thread.start();
@@ -142,7 +142,7 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
         frames=0;
         gameType=rand.nextBoolean();
         letters.clear();
-        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_bp), maxIndex, level, dy_diversity, dy_divider, speedConst));
+        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_bp), false, maxIndex, level, dy_diversity, dy_divider, speedConst));
         cup.lives.addLive();
         cup.lives.addLive();
         cup.lives.addLive();
@@ -151,6 +151,7 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
     private void levelUp(){
         level++;
         scorePaint.setARGB(255, rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
+        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_heart), true, maxIndex, level, dy_diversity, dy_divider, speedConst));
         soundPool.play(soundIds[2], 1, 1, 1, 0, 1);
     }
 
@@ -166,19 +167,26 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
                     letters.remove(i);
                 }
                 if (letters.get(letters.size()-1).getY() > (spawnConst)*letters.get(letters.size()-1).getHeight()) {
-                    letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_bp), maxIndex, level, dy_diversity, dy_divider, speedConst));
+                    letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_bp), false, maxIndex, level, dy_diversity, dy_divider, speedConst));
                 }
 
                 if(Rect.intersects(letters.get(i).getRect(), cup.getRect())&&
                         cup.getY()+0.2*cup.getHeight() > letters.get(i).getY()+letters.get(i).getHeight()){
-                    if(letters.get(i).getType()==gameType){
-                        score=score+scorePerLetter;
-                        if((double)score/scorePerLevel>=level) levelUp();
-                        else soundPool.play(soundIds[0], 1, 1, 1, 0, 1);
+                    if(!letters.get(i).getIsLetter()){
+                        if(letters.get(i).getType()==gameType){
+                            score=score+scorePerLetter;
+                            if((double)score/scorePerLevel>=level) levelUp();
+                            else soundPool.play(soundIds[0], 1, 1, 1, 0, 1);
+                        }
+                        else{
+                            cup.lives.removeLive();
+                            soundPool.play(soundIds[1], 1, 1, 1, 0, 1);
+                        }
+
                     }
                     else{
-                        cup.lives.removeLive();
-                        soundPool.play(soundIds[1], 1, 1, 1, 0, 1);
+                        cup.lives.addLive();
+                        soundPool.play(soundIds[4], 1, 1, 1, 0, 1);
                     }
                     letters.remove(i);
                 }

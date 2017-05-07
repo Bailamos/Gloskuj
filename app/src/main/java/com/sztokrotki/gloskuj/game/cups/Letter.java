@@ -11,15 +11,25 @@ import java.util.Random;
 class Letter extends Object {
 
     private boolean type;
+    private boolean isLetter;
 
-    public Letter(Bitmap res, int maxIndex, int level, int dy_diversity, int dy_divider, int speedConst){
+    public Letter(Bitmap res, boolean isLetter, int maxIndex, int level, int dy_diversity, int dy_divider, int speedConst){
         Random rand = new Random();
-        int index=rand.nextInt(maxIndex);
-        if(index<1) type=true;
-        else type=false;
-        image= Bitmap.createBitmap(res, index*res.getWidth()/maxIndex, 0, res.getWidth()/maxIndex, res.getHeight());
-        width=image.getWidth();
-        height=image.getHeight();
+        if (!isLetter){
+            int index=rand.nextInt(maxIndex);
+            if(index<1) type=true;
+            else type=false;
+            image= Bitmap.createBitmap(res, index*res.getWidth()/maxIndex, 0, res.getWidth()/maxIndex, res.getHeight());
+            width=image.getWidth();
+            height=image.getHeight();
+        }
+        else{
+            this.isLetter=isLetter;
+            image=res;
+            width=image.getWidth();
+            height=image.getHeight();
+        }
+
         y=-2*height;
         dy=(rand.nextInt(dy_diversity)+speedConst)*level*MainActivity.screenHeight/dy_divider;
         x= rand.nextInt(MainActivity.screenWidth-2*width)+width;
@@ -32,4 +42,6 @@ class Letter extends Object {
     public void draw(Canvas canvas){canvas.drawBitmap(image, x, y, null);}
 
     public boolean getType(){return type;}
+
+    public boolean getIsLetter(){return isLetter;}
 }
