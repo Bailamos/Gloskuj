@@ -37,7 +37,7 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
 
     //settings
     private final int spawnConst=4; //smaller = more letters
-    private final int scorePerLetter=500;
+    private final int scorePerLetter=100;
     private final int scorePerLevel=1000;
     private final int dy_diversity=2;  //number of letter's speed per level
     private final int dy_divider=600;   //smaller = faster letters
