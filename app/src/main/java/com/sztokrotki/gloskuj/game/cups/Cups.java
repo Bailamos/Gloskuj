@@ -32,7 +32,8 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
     private final int scorePerLetter=100;
     private final int scorePerLevel=1000;
     private final int dy_diversity=2;  //number of letter's speed per level
-    private final int dy_divider=600;   //smaller = faster letters
+    private final int dy_divider=1800;   //smaller = faster letters
+    private final int speedConst=5;
     private final int maxIndex=2;       //number of letters in sprite
     private final int gyroSensitivity=5;
 
@@ -53,7 +54,7 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
     private SoundPool soundPool;
 
     private int soundIds[] = new int[10];
-    private int frames=0;
+    private int frames;
 
     public Cups (Context context, SoundPool soundPool, int[] soundIds)
     {
@@ -84,7 +85,7 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
         cup= new Cup(BitmapFactory.decodeResource(getResources(), R.drawable.cups_cup),
                 BitmapFactory.decodeResource(getResources(), R.drawable.cups_heart), gyroSensitivity, textSize);
         letters=new ArrayList<>();
-        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_bp), maxIndex, level, dy_diversity, dy_divider));
+        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_bp), maxIndex, level, dy_diversity, dy_divider, speedConst));
         //inicjalizacja watku glownego
         thread.setRunning(true);
         thread.start();
@@ -126,7 +127,6 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
             if (!cup.lives.isAlive()) {
                 if(restartButton.contains((int) event.getX(), (int) event.getY())){
                     restart();
-
                 }
                 if(exitButton.contains((int) event.getX(), (int) event.getY())){
                     ((Activity) context).finish();
@@ -137,7 +137,15 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
     }
 
     private void restart(){
-
+        score=0;
+        level=1;
+        frames=0;
+        gameType=rand.nextBoolean();
+        letters.clear();
+        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_bp), maxIndex, level, dy_diversity, dy_divider, speedConst));
+        cup.lives.addLive();
+        cup.lives.addLive();
+        cup.lives.addLive();
     }
 
     private void levelUp(){
@@ -158,7 +166,7 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
                     letters.remove(i);
                 }
                 if (letters.get(letters.size()-1).getY() > (spawnConst)*letters.get(letters.size()-1).getHeight()) {
-                    letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_bp), maxIndex, level, dy_diversity, dy_divider));
+                    letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_bp), maxIndex, level, dy_diversity, dy_divider, speedConst));
                 }
 
                 if(Rect.intersects(letters.get(i).getRect(), cup.getRect())&&

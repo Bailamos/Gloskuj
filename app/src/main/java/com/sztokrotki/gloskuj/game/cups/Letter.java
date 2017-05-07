@@ -12,7 +12,7 @@ class Letter extends Object {
 
     private boolean type;
 
-    public Letter(Bitmap res, int maxIndex, int level, int dy_diversity, int dy_divider){
+    public Letter(Bitmap res, int maxIndex, int level, int dy_diversity, int dy_divider, int speedConst){
         Random rand = new Random();
         int index=rand.nextInt(maxIndex);
         if(index<1) type=true;
@@ -21,7 +21,7 @@ class Letter extends Object {
         width=image.getWidth();
         height=image.getHeight();
         y=-2*height;
-        dy=(rand.nextInt(dy_diversity)+1)*level*MainActivity.screenHeight/dy_divider;
+        dy=(rand.nextInt(dy_diversity)+speedConst)*level*MainActivity.screenHeight/dy_divider;
         x= rand.nextInt(MainActivity.screenWidth-2*width)+width;
     }
 
