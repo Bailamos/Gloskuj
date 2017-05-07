@@ -1,5 +1,6 @@
 package com.sztokrotki.gloskuj;
 
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
 import android.view.MenuItem;
 
 import com.sztokrotki.gloskuj.game.MenuGame_fragment;
@@ -22,12 +24,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FragmentManager fragmentManager;
     private HashMap<Integer, Fragment> fragmentHashMap;
 
+    public static int screenWidth;
+    public static int screenHeight;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         initClassVariables();
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        screenWidth = size.x;
+        screenHeight = size.y;
 
         fragmentManager.beginTransaction().replace(frame_layout, new MenuMain_fragment()).commit();
     }

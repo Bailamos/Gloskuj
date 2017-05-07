@@ -10,6 +10,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/game_fragment" />
-
+    <Button
+        android:id="@+id/Graj"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Graj!"
+        android:onClick="graj"/>
 
 </LinearLayout>
