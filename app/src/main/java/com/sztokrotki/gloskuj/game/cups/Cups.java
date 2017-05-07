@@ -28,6 +28,14 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
     private final int textSize=MainActivity.screenHeight/20;
     private Paint scorePaint;
 
+    //settings
+    private final int spawnConst=5;
+    private final int scorePerLetter=100;
+    private final int scorePerLevel=1000;
+    private final int dy_diversity=4;
+    private final int dy_divider=500;
+    private final int maxIndex=2;
+
     public Cups (Context context)
     {
         super(context);
@@ -52,7 +60,7 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
         scorePaint.setColor(Color.RED);
         cup= new Cup(BitmapFactory.decodeResource(getResources(), R.drawable.cup));
         letters=new ArrayList<>();
-        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.bp), level));
+        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.bp), maxIndex, level, dy_diversity, dy_divider));
         //inicjalizacja watku glownego
         thread.setRunning(true);
         thread.start();
@@ -99,24 +107,24 @@ public class Cups extends SurfaceView implements SurfaceHolder.Callback{
                 //Gdy pietro wychodzi poza widoczny obszar jest usuwane
                 letters.remove(i);
             }
-            if (letters.get(letters.size()-1).getY() > (5/level)*letters.get(letters.size()-1).getHeight()) {
-                letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.bp), level));
+            if (letters.get(letters.size()-1).getY() > (spawnConst/level)*letters.get(letters.size()-1).getHeight()) {
+                letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.bp), maxIndex, level, dy_diversity, dy_divider));
             }
 
             if(Rect.intersects(letters.get(i).getRect(), cup.getRect())&&
                     cup.getY()+0.2*cup.getHeight() > letters.get(i).getY()+letters.get(i).getHeight()){
                 if(letters.get(i).getType()==gameType){
-                    score=score+100;
+                    score=score+scorePerLetter;
                 }
                 else{
-                    score=score-100;
+                    score=score-scorePerLetter;
                 }
                 letters.remove(i);
                 System.out.println(score);
             }
         }
 
-        if((double)score/1000>=level) level++;
+        if((double)score/scorePerLevel>=level) level++;
     }
 
     @Override

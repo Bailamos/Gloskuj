@@ -12,12 +12,7 @@ public class Letter extends Object {
 
     private boolean type;
 
-    //settings
-    private int dy_diversity=4;
-    private int dy_divider=500;
-    private int maxIndex=2;
-
-    public Letter(Bitmap res, int level){
+    public Letter(Bitmap res, int maxIndex, int level, int dy_diversity, int dy_divider){
         Random rand = new Random();
         int index=rand.nextInt(maxIndex);
         if(index<1) type=true;
