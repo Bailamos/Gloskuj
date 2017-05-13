@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.sztokrotki.gloskuj.R;
 import com.sztokrotki.gloskuj.game.cups.CupsActivity;
+import com.sztokrotki.gloskuj.game.decisions.Decisions;
 
 public class MenuGame_fragment extends Fragment{
 
@@ -32,6 +33,16 @@ public class MenuGame_fragment extends Fragment{
             public void onClick(View v)
             {
                 startActivity(new Intent(getActivity().getApplicationContext(), CupsActivity.class));
+            }
+        });
+
+        Button buttonStartGame2 = (Button) view.findViewById(R.id.NaukoweGraj);
+        buttonStartGame2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                startActivity(new Intent(getActivity().getApplicationContext(), Decisions.class));
             }
         });
         return view;

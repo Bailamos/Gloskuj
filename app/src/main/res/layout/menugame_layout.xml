@@ -17,4 +17,10 @@
         android:text="Graj!"
         android:onClick="graj"/>
 
+    <Button
+        android:id="@+id/NaukoweGraj"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Naukowe Graj!" />
+
 </LinearLayout>

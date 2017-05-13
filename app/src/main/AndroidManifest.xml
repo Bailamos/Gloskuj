@@ -16,7 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".game.cups.CupsActivity"></activity>
+        <activity android:name=".game.cups.CupsActivity" />
+        <activity android:name=".game.decisions.Decisions"></activity>
     </application>
 
 </manifest>
