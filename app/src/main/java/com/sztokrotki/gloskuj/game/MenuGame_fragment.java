@@ -27,8 +27,6 @@ public class MenuGame_fragment extends ListFragment implements AdapterView.OnIte
     private ArrayList<MenuGameItem> menuGameItems = new ArrayList<>();
     private ArrayAdapter<MenuGameItem> adapter;
 
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,8 +39,8 @@ public class MenuGame_fragment extends ListFragment implements AdapterView.OnIte
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         //TODO jakos mądrzej to ogarnąć
-        menuGameItems.add(new MenuGameItem("Gra 1"));
-        menuGameItems.add(new MenuGameItem("Gra 2"));
+        menuGameItems.add(new MenuGameItem("Gra 1", CupsActivity.class));
+        menuGameItems.add(new MenuGameItem("Gra 2", Decisions.class));
         adapter = new MenuGameItemArrayAdapter(getActivity(), 0, menuGameItems);
 
         setListAdapter(adapter);
@@ -51,16 +49,7 @@ public class MenuGame_fragment extends ListFragment implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-        //TODO jakos mądrzej to ogarnąć
         MenuGameItem menuItem = menuGameItems.get(position);
-        switch(menuItem.gameName){
-            case "Gra 1":
-                startActivity(new Intent(getActivity().getApplicationContext(), CupsActivity.class));
-            case "Gra 2":
-                startActivity(new Intent(getActivity().getApplicationContext(), Decisions.class));
-        }
-
+        startActivity(new Intent(getActivity().getApplicationContext(), menuItem.activity));
     }
-
-
 }
