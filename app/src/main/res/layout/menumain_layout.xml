@@ -4,13 +4,64 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
+    android:gravity="center"
     android:background="@drawable/landscape_background">
 
     <TextView
         android:id="@+id/textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="0.1"
         android:text="@string/main_fragment" />
 
+    <LinearLayout
+        android:id="@+id/LinearLayout_buttonRow1"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_weight="0.3">
 
+        <Button
+            android:id="@+id/Button_01"
+            android:background="#C04d98d1"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" android:text="Gry">
+        </Button>
+
+        <Button
+            android:id="@+id/Button_02"
+            android:background="#C04d98d1"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Opcje">
+        </Button>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout_buttonRow2"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_weight="0.3">
+        <Button
+            android:id="@+id/Button_03"
+            android:background="#C04d98d1"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" android:text="Nagie zdjecia Daniela">
+        </Button>
+        <Button
+            android:id="@+id/Button_04"
+            android:background="#C04d98d1"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Wyjście">
+        </Button>
+    </LinearLayout>
 </LinearLayout>
