@@ -15,38 +15,33 @@ import android.widget.TextView;
 import com.sztokrotki.gloskuj.R;
 import com.sztokrotki.gloskuj.game.MenuGame_fragment;
 
-public class MenuMain_fragment extends Fragment {
+public class MenuMain_fragment extends Fragment implements View.OnClickListener {
 
     private View view;
 
     private TextView textView;
-    private Button goToGameMenuButton;
-    private Button mysteryButton;
     private int frame_layout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.menumain_layout, container, false);
+        initClassVariables();
 
-        textView = (TextView) view.findViewById(R.id.textview);
-        goToGameMenuButton = (Button) view.findViewById(R.id.Button_01);
-        mysteryButton = (Button) view.findViewById(R.id.Button_03);
-        frame_layout = R.id.Frame_Layout;
+        return view;
+    }
 
-        goToGameMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.Button_01: {
                 getActivity()
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(frame_layout, new MenuGame_fragment()).commit();
+                break;
             }
-        });
-
-        mysteryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            case R.id.Button_03: {
                 String urlString="https://tinyurl.com/nagidaniel";
                 Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -57,10 +52,17 @@ public class MenuMain_fragment extends Fragment {
                     intent.setPackage(null);
                     getContext().startActivity(intent);
                 }
+                break;
             }
-        });
-
-        return view;
+        }
     }
 
+    private void initClassVariables(){
+        textView = (TextView) view.findViewById(R.id.textview);
+        frame_layout = R.id.Frame_Layout;
+        Button button_MenuGame = (Button) view.findViewById(R.id.Button_01);
+        button_MenuGame.setOnClickListener(this);
+        Button button_Mystery = (Button) view.findViewById(R.id.Button_03);
+        button_Mystery.setOnClickListener(this);
+    }
 }
