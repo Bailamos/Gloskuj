@@ -30,7 +30,7 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
     private final int dy_diversity=2;  //number of letter's speed per level
     private final int dy_divider=1800;   //smaller = faster letters
     private final int speedConst=5;
-    private final int maxIndex=2;       //number of letters in sprite
+    private final int maxIndex=35;       //number of letters in sprite
     private final int gyroSensitivity=5;
 
     private Context context;
@@ -76,7 +76,7 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
         cup= new Cup(BitmapFactory.decodeResource(getResources(), R.drawable.cups_cup),
                 BitmapFactory.decodeResource(getResources(), R.drawable.cups_heart), gyroSensitivity, textSize);
         letters=new ArrayList<>();
-        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_bp), false, maxIndex, level, dy_diversity, dy_divider, speedConst));
+        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_sprite), false, maxIndex, level, dy_diversity, dy_divider, speedConst));
         //inicjalizacja watku glownego
         thread.setRunning(true);
         thread.start();
@@ -120,7 +120,7 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
         frames=0;
         gameType=rand.nextBoolean();
         letters.clear();
-        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_bp), false, maxIndex, level, dy_diversity, dy_divider, speedConst));
+        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_sprite), false, maxIndex, level, dy_diversity, dy_divider, speedConst));
         cup.lives.addLive();
         cup.lives.addLive();
         cup.lives.addLive();
@@ -143,10 +143,10 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
                     letters.remove(i);
                 }
                 if (letters.get(letters.size()-1).getY() > (spawnConst)*letters.get(letters.size()-1).getHeight()) {
-                    letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_bp), false, maxIndex, level, dy_diversity, dy_divider, speedConst));
+                    letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_sprite), false, maxIndex, level, dy_diversity, dy_divider, speedConst));
                 }
 
-                if(Rect.intersects(letters.get(i).getRect(), cup.getRect())&&
+                if(Rect.intersects(letters.get(i).getRect(), cup.getRect())&& //TODO przerobic drugi warunek tak zeby lapalo tez pomiedy FPSami
                         cup.getY()+0.2*cup.getHeight() > letters.get(i).getY()+letters.get(i).getHeight()){
                     if(!letters.get(i).getIsLetter()){
                         if(letters.get(i).getType()==gameType){

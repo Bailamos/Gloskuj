@@ -17,9 +17,9 @@ class Letter extends Object {
         Random rand = new Random();
         if (!isLetter){
             int index=rand.nextInt(maxIndex);
-            if(index<1) type=true;
+            if(index<25) type=true;
             else type=false;
-            image= Bitmap.createBitmap(res, index*res.getWidth()/maxIndex, 0, res.getWidth()/maxIndex, res.getHeight());
+            image= Bitmap.createBitmap(res, index*res.getHeight(), 0, res.getHeight(), res.getHeight());
             width=image.getWidth();
             height=image.getHeight();
         }

@@ -42,17 +42,17 @@ public class MenuMain_fragment extends Fragment implements View.OnClickListener 
                 break;
             }
             case R.id.Button_03: {
-                String urlString="https://tinyurl.com/nagidaniel";
-                Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setPackage("com.android.chrome");
-                try {
-                    getContext().startActivity(intent);
-                } catch (ActivityNotFoundException ex) {
-                    intent.setPackage(null);
-                    getContext().startActivity(intent);
-                }
-                break;
+//                String urlString="https://tinyurl.com/nagidaniel";
+//                Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.setPackage("com.android.chrome");
+//                try {
+//                    getContext().startActivity(intent);
+//                } catch (ActivityNotFoundException ex) {
+//                    intent.setPackage(null);
+//                    getContext().startActivity(intent);
+//                }
+//                break;
             }
         }
     }

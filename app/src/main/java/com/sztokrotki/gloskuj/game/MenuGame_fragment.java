@@ -39,7 +39,7 @@ public class MenuGame_fragment extends ListFragment implements AdapterView.OnIte
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         //TODO jakos mądrzej to ogarnąć
-        menuGameItems.add(new MenuGameItem("Gra 1", CupsActivity.class));
+        menuGameItems.add(new MenuGameItem("Kubek", CupsActivity.class));
         menuGameItems.add(new MenuGameItem("Gra 2", Decisions.class));
         adapter = new MenuGameItemArrayAdapter(getActivity(), 0, menuGameItems);
 
