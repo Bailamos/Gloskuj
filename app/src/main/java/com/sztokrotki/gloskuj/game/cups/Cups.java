@@ -176,8 +176,9 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
                         letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_sprite), false, maxIndex, level, dy_diversity, dy_divider, speedConst));
                 }
 
-                if(Rect.intersects(letters.get(i).getRect(), cup.getRect())&& //TODO przerobic drugi warunek tak zeby lapalo tez pomiedy FPSami
-                        cup.getY()+0.2*cup.getHeight() > letters.get(i).getY()+letters.get(i).getHeight()){
+                if(Rect.intersects(letters.get(i).getRect(), cup.getRect())&&
+                        (cup.getY()+0.2*cup.getHeight() > letters.get(i).getY()+letters.get(i).getHeight() ||
+                                cup.getY()+0.2*cup.getHeight() > letters.get(i).getPrevY()+letters.get(i).getHeight())){
                     if(!letters.get(i).getIsLetter()){
                         if(letters.get(i).getType()==gameType){
                             score=score+scorePerLetter;

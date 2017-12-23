@@ -12,6 +12,7 @@ class Letter extends Object {
 
     private boolean type;
     private boolean isLetter;
+    private int prevY;
 
     public Letter(Bitmap res, boolean isLetter, int maxIndex, int level, int dy_diversity, int dy_divider, int speedConst){
         Random rand = new Random();
@@ -52,7 +53,7 @@ class Letter extends Object {
     }
 
     public void update(){
-
+        prevY=y;
         y=y+dy;
     }
     public void draw(Canvas canvas){canvas.drawBitmap(image, x, y, null);}
@@ -60,4 +61,6 @@ class Letter extends Object {
     public boolean getType(){return type;}
 
     public boolean getIsLetter(){return isLetter;}
+
+    public int getPrevY() {return prevY;}
 }
