@@ -71,7 +71,11 @@ class CupsThread extends Thread{
 
     public void setRunning(boolean running)
     {
-
         this.running=running;
+    }
+
+    public boolean getRunning()
+    {
+        return running;
     }
 }

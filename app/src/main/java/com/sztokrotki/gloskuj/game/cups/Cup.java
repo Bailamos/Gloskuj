@@ -30,6 +30,14 @@ class Cup extends Object {
         if(x> MainActivity.screenWidth-1-width) x=MainActivity.screenWidth-1-width;
     }
 
+    public void navigate(int letterX){
+        if(Math.abs(x-letterX)>width/2)
+            if(x>letterX)
+                x=x-width/10;
+            else
+                x=x+width/10;
+    }
+
     public void draw(Canvas canvas){canvas.drawBitmap(image, x, y, null);  }
 
 }

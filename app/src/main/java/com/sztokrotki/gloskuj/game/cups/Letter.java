@@ -35,6 +35,22 @@ class Letter extends Object {
         x= rand.nextInt(MainActivity.screenWidth-2*width)+width;
     }
 
+    public Letter (Bitmap res, boolean type, int level, int dy_diversity, int dy_divider, int speedConst){
+        int index;
+        Random rand = new Random();
+        if (type)
+            index=rand.nextInt(25);
+        else
+            index=25+rand.nextInt(10);
+        this.type=type;
+        image= Bitmap.createBitmap(res, index*res.getHeight(), 0, res.getHeight(), res.getHeight());
+        width=image.getWidth();
+        height=image.getHeight();
+        y=-2*height;
+        dy=(rand.nextInt(dy_diversity)+speedConst)*level*MainActivity.screenHeight/dy_divider;
+        x= rand.nextInt(MainActivity.screenWidth-2*width)+width;
+    }
+
     public void update(){
 
         y=y+dy;

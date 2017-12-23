@@ -22,6 +22,8 @@ class Lives {
 
     protected boolean isAlive(){return number>0;}
 
+    protected void kill() {number=0;}
+
     public void draw(Canvas canvas){
         for(int i=0;i<number;i++) {
             canvas.drawBitmap(image, (float)(0.01* MainActivity.screenWidth+i*1.1*image.getWidth()), 2*textSize, null);

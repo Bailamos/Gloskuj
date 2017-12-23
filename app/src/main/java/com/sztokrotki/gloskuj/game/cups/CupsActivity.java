@@ -11,6 +11,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -34,8 +35,8 @@ public class CupsActivity extends Activity implements SensorEventListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
         music = MediaPlayer.create(this, R.raw.cups_music);
         music.setLooping(true);
         music.start();
@@ -60,6 +61,7 @@ public class CupsActivity extends Activity implements SensorEventListener {
         //ropoczecie gry
         cups=new Cups(this, soundPool, soundIds);
         setContentView(cups);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @Override
@@ -76,8 +78,8 @@ public class CupsActivity extends Activity implements SensorEventListener {
 
     @Override
     protected void onDestroy(){
-        super.onDestroy();
         soundPool.release();
         music.release();
+        super.onDestroy();
     }
 }

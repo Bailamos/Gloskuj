@@ -28,8 +28,8 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
     private final int scorePerLetter=10;
     private final int scorePerLevel=100;
     private final int dy_diversity=2;  //number of letter's speed per level
-    private final int dy_divider=1800;   //smaller = faster letters
-    private final int speedConst=5;
+    private final int dy_divider=1900;   //smaller = faster letters
+    private final int speedConst=6;
     private final int maxIndex=35;       //number of letters in sprite
     private final int gyroSensitivity=5;
 
@@ -42,11 +42,12 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
     private int score;
     private int level;
     private boolean gameType;
+    private boolean isTutorial;
 
     private Paint scorePaint;
     private Bitmap background;
-    private Rect restartButton;
-    private Rect exitButton;
+    private Rect leftButton;
+    private Rect rightButton;
     private SoundPool soundPool;
 
     private int soundIds[] = new int[10];
@@ -77,10 +78,10 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
                 BitmapFactory.decodeResource(getResources(), R.drawable.cups_heart), gyroSensitivity, textSize);
         letters=new ArrayList<>();
         letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_sprite), false, maxIndex, level, dy_diversity, dy_divider, speedConst));
+        drawMenu(holder);
         //inicjalizacja watku glownego
         thread=new CupsThread(getHolder(), this);
-        thread.setRunning(true);
-        thread.start();
+        thread.setRunning(false);
     }
 
     @Override
@@ -103,11 +104,29 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if (!cup.lives.isAlive()) {
-                if(restartButton.contains((int) event.getX(), (int) event.getY())){
+                if(leftButton.contains((int) event.getX(), (int) event.getY())){
+                    isTutorial=false;
                     restart();
                 }
-                if(exitButton.contains((int) event.getX(), (int) event.getY())){
+                if(rightButton.contains((int) event.getX(), (int) event.getY())){
                     ((Activity) context).finish();
+                }
+            }
+            else
+            {
+                if(!thread.getRunning()){
+                    if(leftButton.contains((int) event.getX(), (int) event.getY())){
+                        isTutorial=true;
+                        letters.clear();
+                        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_sprite), gameType, level, dy_diversity, dy_divider, speedConst));
+                        thread.setRunning(true);
+                        thread.start();
+                    }
+                    if(rightButton.contains((int) event.getX(), (int) event.getY())){
+                        isTutorial=false;
+                        thread.setRunning(true);
+                        thread.start();
+                    }
                 }
             }
         }
@@ -124,6 +143,9 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
         cup.lives.addLive();
         cup.lives.addLive();
         cup.lives.addLive();
+        thread=new CupsThread(getHolder(), this);
+        thread.setRunning(true);
+        thread.start();
     }
 
     private void levelUp(){
@@ -135,7 +157,12 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
 
     public void update() {
         if (cup.lives.isAlive()) {
-            cup.update();
+            if(isTutorial) {
+                cup.navigate(letters.get(0).x);
+            }
+            else{
+                cup.update();
+            }
             for (int i = 0; i < letters.size(); i++) {
                 letters.get(i).update();
 
@@ -143,7 +170,10 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
                     letters.remove(i);
                 }
                 if (letters.get(letters.size()-1).getY() > (spawnConst)*letters.get(letters.size()-1).getHeight()) {
-                    letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_sprite), false, maxIndex, level, dy_diversity, dy_divider, speedConst));
+                    if(isTutorial)
+                        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_sprite), !gameType, level, dy_diversity, dy_divider, speedConst));
+                    else
+                        letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_sprite), false, maxIndex, level, dy_diversity, dy_divider, speedConst));
                 }
 
                 if(Rect.intersects(letters.get(i).getRect(), cup.getRect())&& //TODO przerobic drugi warunek tak zeby lapalo tez pomiedy FPSami
@@ -157,8 +187,10 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
                         else{
                             cup.lives.removeLive();
                             soundPool.play(soundIds[1], 1, 1, 1, 0, 1);
+                            if(isTutorial){
+                                cup.lives.kill();
+                            }
                         }
-
                     }
                     else{
                         cup.lives.addLive();
@@ -168,7 +200,8 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
                 }
             }
         }
-
+        else
+            thread.setRunning(false);
     }
 
     @Override
@@ -193,27 +226,98 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
                     canvas.drawText("Łap bezdźwięczne!", (float)0.12*MainActivity.screenWidth,
                             (float)0.5*MainActivity.screenHeight, scorePaint);
             }
+            if (isTutorial)
+                drawHelpText(canvas);
             if (cup.lives.isAlive()){
                 canvas.drawText("Wynik: "+Integer.toString(score), (float)0.5*MainActivity.screenWidth, (float)1.5*textSize, scorePaint);
                 canvas.drawText("Poziom: "+Integer.toString(level), (float)0.01*MainActivity.screenWidth, (float)1.5*textSize, scorePaint);
             }
             else
             {
-                canvas.drawText("Koniec gry!", (float)0.3*MainActivity.screenWidth, MainActivity.screenHeight/2-3*textSize, scorePaint);
-                canvas.drawText("Wynik: "+Integer.toString(score), (float)0.3*MainActivity.screenWidth, MainActivity.screenHeight/2-textSize, scorePaint);
-                canvas.drawText("Poziom: "+Integer.toString(level), (float)0.3*MainActivity.screenWidth, MainActivity.screenHeight/2, scorePaint);
-
-                restartButton= new Rect((int)(0.1*MainActivity.screenWidth),(MainActivity.screenHeight/2+3*textSize),
-                        (int)(0.6*MainActivity.screenWidth),(int)(MainActivity.screenHeight/2+4.25*textSize));
-                exitButton= new Rect((int)(0.7*MainActivity.screenWidth),(MainActivity.screenHeight/2+3*textSize),
-                        (int)(0.95*MainActivity.screenWidth),(int)(MainActivity.screenHeight/2+4.25*textSize));
-                canvas.drawRect(restartButton, scorePaint);
-                canvas.drawRect(exitButton, scorePaint);
-                scorePaint.setColor(Color.BLACK);
-                canvas.drawText("Jeszcze raz!", (float)0.1*MainActivity.screenWidth, MainActivity.screenHeight/2+4*textSize, scorePaint);
-                canvas.drawText("Wyjdz", (float)0.7*MainActivity.screenWidth, MainActivity.screenHeight/2+4*textSize, scorePaint);
-                scorePaint.setColor(Color.RED);
+                if(!isTutorial){
+                    drawEndMenu(canvas);
+                }
+                else
+                    drawMidMenu(canvas);
             }
         }
+    }
+
+    private void drawMenu(SurfaceHolder holder){
+        Canvas canvas = holder.lockCanvas();
+        try {
+            synchronized (holder) {
+                canvas.drawBitmap(background, 0, 0, null);
+                cup.draw(canvas);
+                leftButton = new Rect((int) (0.1 * MainActivity.screenWidth), (MainActivity.screenHeight / 2 - textSize),
+                        (int) (0.6 * MainActivity.screenWidth), (int) (MainActivity.screenHeight / 2 + 0.25*textSize));
+                rightButton = new Rect((int) (0.7 * MainActivity.screenWidth), (MainActivity.screenHeight / 2 - textSize),
+                        (int) (0.85 * MainActivity.screenWidth), (int) (MainActivity.screenHeight / 2 + 0.25*textSize));
+                scorePaint.setTextSize(textSize/2);
+                canvas.drawText("Potrzebujesz samouczka czy możemy grać?",
+                        (float) 0.1 * MainActivity.screenWidth, MainActivity.screenHeight / 2 - 2 * textSize, scorePaint);
+                scorePaint.setTextSize(textSize);
+                canvas.drawText("Samouczek", (float) 0.1 * MainActivity.screenWidth, MainActivity.screenHeight / 2, scorePaint);
+                canvas.drawText("Gra", (float) 0.7 * MainActivity.screenWidth, MainActivity.screenHeight / 2, scorePaint);
+            }
+        } catch (Exception e) {
+        }
+        finally{
+            if(canvas!=null)
+            {
+                try {
+                    holder.unlockCanvasAndPost(canvas);
+                }
+                catch(Exception e){e.printStackTrace();}
+            }
+        }
+    }
+
+    private void drawMidMenu(Canvas canvas){
+        canvas.drawBitmap(background, 0, 0, null);
+        cup.draw(canvas);
+        leftButton = new Rect((int) (0.4 * MainActivity.screenWidth), (MainActivity.screenHeight / 2 - textSize),
+                (int) (0.6 * MainActivity.screenWidth), (int) (MainActivity.screenHeight / 2 + 0.25*textSize));
+        scorePaint.setTextSize(textSize/2);
+        canvas.drawText("Zaczynamy?",
+                (float) 0.4 * MainActivity.screenWidth, MainActivity.screenHeight / 2 - 2 * textSize, scorePaint);
+        scorePaint.setTextSize(textSize);
+        canvas.drawText("OK", (float) 0.4 * MainActivity.screenWidth, MainActivity.screenHeight / 2, scorePaint);
+    }
+
+    private void drawEndMenu(Canvas canvas){
+        canvas.drawText("Koniec gry!", (float)0.3*MainActivity.screenWidth, MainActivity.screenHeight/2-3*textSize, scorePaint);
+        canvas.drawText("Wynik: "+Integer.toString(score), (float)0.3*MainActivity.screenWidth, MainActivity.screenHeight/2-textSize, scorePaint);
+        canvas.drawText("Poziom: "+Integer.toString(level), (float)0.3*MainActivity.screenWidth, MainActivity.screenHeight/2, scorePaint);
+
+        leftButton= new Rect((int)(0.1*MainActivity.screenWidth),(MainActivity.screenHeight/2+3*textSize),
+                (int)(0.6*MainActivity.screenWidth),(int)(MainActivity.screenHeight/2+4.25*textSize));
+        rightButton= new Rect((int)(0.7*MainActivity.screenWidth),(MainActivity.screenHeight/2+3*textSize),
+                (int)(0.95*MainActivity.screenWidth),(int)(MainActivity.screenHeight/2+4.25*textSize));
+        canvas.drawText("Jeszcze raz!", (float)0.1*MainActivity.screenWidth, MainActivity.screenHeight/2+4*textSize, scorePaint);
+        canvas.drawText("Wyjdz", (float)0.7*MainActivity.screenWidth, MainActivity.screenHeight/2+4*textSize, scorePaint);
+    }
+
+    private void drawHelpText(Canvas canvas){
+        scorePaint.setTextSize(textSize/2);
+        canvas.drawText("Ruszaj telefonem na boki", (float)0.01*MainActivity.screenWidth,
+                (float)0.3*MainActivity.screenHeight, scorePaint);
+        canvas.drawText("żeby się poruszać", (float)0.01*MainActivity.screenWidth,
+                (float)(0.3*MainActivity.screenHeight + 0.8*textSize), scorePaint);
+        if(score==0)
+        {
+            canvas.drawText("Za złapanie odpowiedniej litery ", (float)0.01*MainActivity.screenWidth,
+                    (float)0.7*MainActivity.screenHeight, scorePaint);
+            canvas.drawText("dostaniesz 10pkt", (float)0.01*MainActivity.screenWidth,
+                    (float)(0.7*MainActivity.screenHeight+0.8*textSize), scorePaint);
+        }
+        if(score==10)
+        {
+            canvas.drawText("Za złapanie nie odpowiedniej litery ", (float)0.01*MainActivity.screenWidth,
+                    (float)0.7*MainActivity.screenHeight, scorePaint);
+            canvas.drawText("stracisz jedno życie", (float)0.01*MainActivity.screenWidth,
+                    (float)(0.7*MainActivity.screenHeight+0.8*textSize), scorePaint);
+        }
+        scorePaint.setTextSize(textSize);
     }
 }
