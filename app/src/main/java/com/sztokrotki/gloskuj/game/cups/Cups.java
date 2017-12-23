@@ -34,7 +34,7 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
     private final int gyroSensitivity=5;
 
     private Context context;
-    private CupsThread thread;
+    public CupsThread thread;
     private Cup cup;
     private ArrayList<Letter> letters;
     private Random rand;
@@ -57,7 +57,6 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
         super(context);
         this.context=context;
         getHolder().addCallback(this);
-        thread=new CupsThread(getHolder(), this);
         setFocusable(true);
         this.soundPool=soundPool;
         this.soundIds=soundIds;
@@ -68,6 +67,7 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
         rand = new Random();
         score=0;
         level=1;
+        frames=0;
         gameType=rand.nextBoolean();
         background=BitmapFactory.decodeResource(getResources(), R.drawable.cups_background);
         scorePaint = new Paint();
@@ -78,6 +78,7 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
         letters=new ArrayList<>();
         letters.add(new Letter(BitmapFactory.decodeResource(getResources(), R.drawable.cups_sprite), false, maxIndex, level, dy_diversity, dy_divider, speedConst));
         //inicjalizacja watku glownego
+        thread=new CupsThread(getHolder(), this);
         thread.setRunning(true);
         thread.start();
     }
@@ -96,7 +97,6 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
                 retry = false;
             }catch(InterruptedException e){e.printStackTrace();}
         }
-        soundPool.release();
     }
 
     public boolean onTouchEvent(MotionEvent event) {
@@ -186,9 +186,12 @@ class Cups extends SurfaceView implements SurfaceHolder.Callback{
 
             if(frames<150){
                 frames++;
-                if(gameType) canvas.drawText("Łap dźwięczne!", (float)0.2*MainActivity.screenWidth, (float)0.5*MainActivity.screenHeight, scorePaint);
-                else canvas.drawText("Łap bezdźwięczne!", (float)0.12*MainActivity.screenWidth, (float)0.5*MainActivity.screenHeight, scorePaint);
-
+                if(gameType)
+                    canvas.drawText("Łap dźwięczne!", (float)0.2*MainActivity.screenWidth,
+                            (float)0.5*MainActivity.screenHeight, scorePaint);
+                else
+                    canvas.drawText("Łap bezdźwięczne!", (float)0.12*MainActivity.screenWidth,
+                            (float)0.5*MainActivity.screenHeight, scorePaint);
             }
             if (cup.lives.isAlive()){
                 canvas.drawText("Wynik: "+Integer.toString(score), (float)0.5*MainActivity.screenWidth, (float)1.5*textSize, scorePaint);

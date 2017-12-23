@@ -4,13 +4,10 @@ import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
 class CupsThread extends Thread{
-    /** Panel, na ktorym rysowana jest gra. */
+
     private SurfaceHolder surfaceHolder;
-    /** Obiekt gry */
     private Cups game;
-    /** Zmienna odpowiedzialna za start petli. */
     private boolean running;
-    /** Canvas, na ktorych rysowana jest gra. */
     public static Canvas canvas;
 
     public CupsThread(SurfaceHolder surfaceHolder, Cups game )
@@ -72,8 +69,9 @@ class CupsThread extends Thread{
         }
     }
 
-    public void setRunning(boolean czy)
+    public void setRunning(boolean running)
     {
-        running=czy;
+
+        this.running=running;
     }
 }

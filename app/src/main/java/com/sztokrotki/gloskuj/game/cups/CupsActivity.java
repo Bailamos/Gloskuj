@@ -2,6 +2,7 @@ package com.sztokrotki.gloskuj.game.cups;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -20,6 +21,7 @@ public class CupsActivity extends Activity implements SensorEventListener {
     public static float gyroX;
     private MediaPlayer music;
     private SoundPool soundPool;
+    private Cups cups;
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -48,6 +50,7 @@ public class CupsActivity extends Activity implements SensorEventListener {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         //obsługa żyroskopu
         SensorManager mng = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -55,13 +58,26 @@ public class CupsActivity extends Activity implements SensorEventListener {
         mng.registerListener(this, acc, SensorManager.SENSOR_DELAY_NORMAL);
 
         //ropoczecie gry
-        setContentView(new Cups(this, soundPool, soundIds));
+        cups=new Cups(this, soundPool, soundIds);
+        setContentView(cups);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        music.start();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        music.pause();
     }
 
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        music.stop();
         soundPool.release();
+        music.release();
     }
 }
