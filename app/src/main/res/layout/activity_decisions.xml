@@ -8,63 +8,11 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.sztokrotki.gloskuj.game.decisions.Decisions">
+    tools:context="com.sztokrotki.gloskuj.game.decisions.DecisionsActivity"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/placeholder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/randomWordText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:textSize="60px"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/decisionLog"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.8"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:text="" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.7"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/Voiceless"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="Bezdźwięczna" />
-
-            <Button
-                android:id="@+id/Voice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="Dźwięczna" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-
+        android:layout_height="match_parent" />
 </LinearLayout>

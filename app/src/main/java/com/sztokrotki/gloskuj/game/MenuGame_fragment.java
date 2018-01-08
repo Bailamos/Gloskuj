@@ -15,7 +15,7 @@ import com.sztokrotki.gloskuj.R;
 import com.sztokrotki.gloskuj.game.View.MenuGameItem;
 import com.sztokrotki.gloskuj.game.View.MenuGameItemArrayAdapter;
 import com.sztokrotki.gloskuj.game.cups.CupsActivity;
-import com.sztokrotki.gloskuj.game.decisions.Decisions;
+import com.sztokrotki.gloskuj.game.decisions.DecisionsActivity;
 
 import java.util.ArrayList;
 
@@ -40,7 +40,7 @@ public class MenuGame_fragment extends ListFragment implements AdapterView.OnIte
         super.onActivityCreated(savedInstanceState);
         //TODO jakos mądrzej to ogarnąć
         menuGameItems.add(new MenuGameItem("Kubek", CupsActivity.class));
-        menuGameItems.add(new MenuGameItem("Gra 2", Decisions.class));
+        menuGameItems.add(new MenuGameItem("Gra 2", DecisionsActivity.class));
         adapter = new MenuGameItemArrayAdapter(getActivity(), 0, menuGameItems);
 
         setListAdapter(adapter);
