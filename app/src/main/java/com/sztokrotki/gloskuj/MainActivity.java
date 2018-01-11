@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity{
         screenWidth = size.x;
         screenHeight = size.y;
 
+
         fragmentManager.beginTransaction().replace(frame_layout, new MenuMain_fragment()).commit();
     }
 

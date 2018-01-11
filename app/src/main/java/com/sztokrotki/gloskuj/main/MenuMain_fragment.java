@@ -19,7 +19,6 @@ public class MenuMain_fragment extends Fragment implements View.OnClickListener 
 
     private View view;
 
-    private ImageView logo;
     private int frame_layout;
 
     @Nullable
