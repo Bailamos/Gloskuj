@@ -64,7 +64,5 @@ public class MenuMain_fragment extends Fragment implements View.OnClickListener 
         button_MenuGame.setOnClickListener(this);
         Button button_exitApp = (Button) view.findViewById(R.id.exitApp);
         button_exitApp.setOnClickListener(this);
-        ImageView imageView = (ImageView) view.findViewById(R.id.logo);
-        imageView.setImageBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.gloskuj));
     }
 }

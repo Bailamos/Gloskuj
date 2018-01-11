@@ -33,8 +33,8 @@ public class MenuGameItemArrayAdapter extends ArrayAdapter<MenuGameItem> {
         TextView name = (TextView) view.findViewById(R.id.nazwa_value);
         ImageView overview = (ImageView) view.findViewById(R.id.image);
 
-        name.setText(menuGameItem.gameName);
-        overview.setImageResource(R.mipmap.ic_launcher);
+        name.setText("      ".concat(menuGameItem.gameName));
+        overview.setImageResource((menuGameItem.gameName.equals("Kubek")) ? R.drawable.cups_cup : R.mipmap.ic_launcher);
 
         return view;
     }
