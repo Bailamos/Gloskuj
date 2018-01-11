@@ -22,22 +22,12 @@
         android:layout_weight="0.3">
 
         <Button
-            android:id="@+id/Button_01"
+            android:id="@+id/goToGames"
             android:background="#C04d98d1"
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" android:text="Gry">
-        </Button>
-
-        <Button
-            android:id="@+id/Button_02"
-            android:background="#C04d98d1"
-            android:layout_margin="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Opcje">
         </Button>
     </LinearLayout>
 
@@ -47,15 +37,7 @@
         android:layout_width="fill_parent"
         android:layout_weight="0.3">
         <Button
-            android:id="@+id/Button_03"
-            android:background="#C04d98d1"
-            android:layout_margin="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1" android:text="Nauka">
-        </Button>
-        <Button
-            android:id="@+id/Button_04"
+            android:id="@+id/exitApp"
             android:background="#C04d98d1"
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
