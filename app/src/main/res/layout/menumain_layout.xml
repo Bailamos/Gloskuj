@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:gravity="center"
-    android:background="@drawable/landscape_background">
+    android:scaleType="fitXY"
+    android:background="@drawable/background_red1">
 
     <ImageView
         android:id="@+id/logo"
@@ -22,11 +23,16 @@
 
         <Button
             android:id="@+id/goToGames"
-            android:background="#C04d98d1"
+            android:background="@drawable/shape"
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1" android:text="Gry">
+            android:fontFamily="casual"
+            android:textSize="50dp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_weight="1" android:text="Gry"
+            >
         </Button>
     </LinearLayout>
 
@@ -37,12 +43,16 @@
         android:layout_weight="0.3">
         <Button
             android:id="@+id/exitApp"
-            android:background="#C04d98d1"
+            android:background="@drawable/shape"
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:fontFamily="casual"
+            android:textSize="50dp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
             android:layout_weight="1"
-            android:text="Wyjście">
+            android:text="Wyjscie">
         </Button>
     </LinearLayout>
 </LinearLayout>

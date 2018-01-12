@@ -30,10 +30,10 @@ public class MenuGameItemArrayAdapter extends ArrayAdapter<MenuGameItem> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.menugame_item, null);
 
-        TextView name = (TextView) view.findViewById(R.id.nazwa_value);
+        //TextView name = (TextView) view.findViewById(R.id.nazwa_value);
         ImageView overview = (ImageView) view.findViewById(R.id.image);
 
-        name.setText("      ".concat(menuGameItem.gameName));
+        //name.setText("      ".concat(menuGameItem.gameName));
         overview.setImageResource((menuGameItem.gameName.equals("Kubek")) ? R.drawable.cups_cup : R.mipmap.ic_launcher);
 
         return view;

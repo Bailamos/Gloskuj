@@ -3,12 +3,54 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:gravity="center"
+    android:scaleType="fitXY"
+    android:background="@drawable/background_red1">
 
-    <ListView
-        android:id="@+id/android:list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <LinearLayout
+        android:id="@+id/game_cup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5">
 
+        <Button
+            android:id="@+id/cup_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:paddingTop="50dp"
+            android:background="@drawable/shape"
+            android:drawableTop="@drawable/cup"
+            android:fontFamily="casual"
+            android:text="KUBEK"
+            android:textColor="#FFFFFF"
+            android:textSize="50dp"
+            android:textStyle="bold">
 
+        </Button>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/game_choices"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_weight="0.5">
+        <Button
+            android:id="@+id/choice_button"
+            android:background="@drawable/shape"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:paddingTop="50dp"
+            android:drawableTop="@drawable/choices"
+            android:layout_height="match_parent"
+            android:fontFamily="casual"
+            android:textSize="50dp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_weight="1"
+            android:text="WYBORY">
+        </Button>
+    </LinearLayout>
 </LinearLayout>
